@@ -1,0 +1,12 @@
+# Environments
+.env
+.venv
+venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Temporary Folders
+edugrade_uploads/
+edugrade_reports/

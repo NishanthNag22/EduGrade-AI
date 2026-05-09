@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduGrade AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <nav>
+    <div class="nav-brand">EduGrade <span>AI</span></div>
+    <div id="apiStatus" class="status-dot"></div>
+  </nav>
+
+  <main>
+    <!-- SETUP PAGE -->
+    <div id="setupPage">
+      <div class="hero">
+        <h1>Batch Assignment Evaluator</h1>
+        <p>Upload 100+ student submissions. AI evaluates each, detects plagiarism, generates PDF reports and viva
+          questions.</p>
+      </div>
+
+      <!-- Rubric Section -->
+      <div class="card">
+        <div class="card-header">
+          <span class="section-label">Rubric</span>
+          <label class="upload-rubric-btn">
+            📄 Upload rubric file
+            <input type="file" id="rubricFile" accept=".pdf,.docx,.txt" hidden>
+          </label>
+        </div>
+        <div id="rubricHeader" class="rubric-header">
+          <span>Criterion</span><span>Description</span><span>Points</span><span></span>
+        </div>
+        <div id="rubricList"></div>
+        <button class="btn-dashed" onclick="addRubric()">+ Add criterion</button>
+        <div class="rubric-total">Total: <strong id="totalPts">0</strong> pts</div>
+      </div>
+
+      <!-- Upload Section -->
+      <div class="card">
+        <div class="section-label">Student Submissions</div>
+        <div class="drop-zone" id="dropZone">
+          <div class="drop-icon">📂</div>
+          <div class="drop-title">Drop files here or <span class="link">click to browse</span></div>
+          <div class="drop-sub">PDF, DOCX, TXT, Python, JS, Java, C/C++ — supports 100+ files</div>
+          <input type="file" id="fileInput" multiple accept=".pdf,.docx,.txt,.py,.js,.ts,.java,.c,.cpp,.cs" hidden>
+        </div>
+        <div id="fileList" class="file-list"></div>
+      </div>
+
+      <button class="btn-primary" id="evalBtn" onclick="startEval()">
+        Evaluate submissions
+      </button>
+    </div>
+
+    <!-- RESULTS PAGE -->
+    <div id="resultsPage" hidden>
+      <div class="results-header">
+        <div>
+          <h2>Evaluation Results</h2>
+          <p id="resultsSubtitle" class="subtitle"></p>
+        </div>
+        <button class="btn-outline" onclick="reset()">← New evaluation</button>
+      </div>
+
+      <div class="stats-grid" id="statsGrid"></div>
+      <div id="progressBar" class="progress-wrap">
+        <div class="progress-track">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <span id="progressLabel" class="progress-label"></span>
+      </div>
+      <div id="plagPanel" class="plag-panel" hidden></div>
+      <div id="resultsList"></div>
+      <div id="classSummary" class="class-summary" hidden></div>
+    </div>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
