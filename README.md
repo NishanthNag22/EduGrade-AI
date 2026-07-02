@@ -1,131 +1,120 @@
-# 🎓 EduGrade AI: Intelligent Academic Assessment Engine
+# 🎓 EduGrade AI — Intelligent Academic Assessment Engine
 
-EduGrade AI is a professional-grade, batch-processing evaluation platform designed for modern educators. By leveraging LLaMA 3.3 (70B) via Groq, it automates the grading of student assignments (PDF, DOCX, TXT) against custom rubrics, identifies potential plagiarism, and generates professional feedback reports.
+> AI-powered batch grading platform for educators. Upload 100+ student submissions, get detailed feedback, plagiarism detection, and PDF reports — all in one click.
 
----
+## 🔗 Live Demo
+**[edugrade-ai.netlify.app](https://edugrade-ai.netlify.app)**
 
-# 🌟 Key Features
-
-## 🧠 LLaMA 3.3 Power
-High-fidelity academic grading using the `llama-3.3-70b-versatile` model for nuanced reasoning.
-
-## 📂 Bulk Evaluation
-Process multiple student submissions simultaneously with a single click.
-
-## 🔍 Plagiarism Guard
-Built-in similarity detection using Cosine Similarity to identify overlaps between student work.
-
-## 📄 Smart Rubric Parsing
-Automatically extracts and structures grading criteria from raw text or rubric files.
-
-## 📊 Comprehensive Reporting
-
-- **PDF Reports:** Formal, structured evaluation summaries for official records.
-- **TXT Feedback:** Lightweight, quick-view summaries for rapid student distribution.
-
-## ⚡ High Performance
-Asynchronous background tasks ensure the system remains responsive even during heavy AI processing.
+> ⚠️ Backend hosted on Render free tier — first request may take ~30 seconds (cold start). The app is fully functional after wakeup.
 
 ---
 
-# 🛠️ Technology Stack
+## 🌟 Key Features
+
+| Feature | Description |
+|---|---|
+| 🧠 **LLaMA 3.3 70B Grading** | High-fidelity academic evaluation using Groq's ultra-fast inference |
+| 📂 **Batch Processing** | Grade 100+ submissions simultaneously via async background tasks |
+| 🔍 **Plagiarism Detection** | Cosine similarity analysis across all submission pairs |
+| 📄 **Smart Rubric Parsing** | Upload a rubric file — AI extracts and structures criteria automatically |
+| 📊 **PDF & TXT Reports** | Formal PDF reports + lightweight TXT feedback per student |
+| ⚡ **Real-time Progress** | Live polling shows evaluation progress as submissions are graded |
+
+---
+
+## 🛠️ Tech Stack
 
 | Layer | Technology |
-|------|-------------|
-| Backend | FastAPI, Uvicorn, Python 3.10+ |
-| AI Engine | Groq SDK (Llama 3.3 70B) |
-| Document Parsing | pdfplumber, python-docx |
-| PDF Generation | ReportLab |
-| Frontend | Modern Vanilla JS, CSS3 (Glassmorphism UI) |
+|---|---|
+| **Backend** | FastAPI, Uvicorn, Python 3.10+ |
+| **AI Engine** | Groq SDK — LLaMA 3.3 70B Versatile |
+| **Document Parsing** | pdfplumber, python-docx |
+| **PDF Generation** | ReportLab |
+| **Plagiarism** | Cosine Similarity (custom implementation) |
+| **Frontend** | Vanilla JS, CSS3 |
+| **Deployment** | Render (backend) + Netlify (frontend) |
 
 ---
 
-# 📋 Installation & Setup
+## 🏗️ Architecture
 
-## 1. Prerequisites
-
-- Python 3.10 or higher
-- A Groq API Key
+```
+User Browser (Netlify)
+        │
+        │ HTTP/REST
+        ▼
+FastAPI Backend (Render)
+        │
+        ├── pdfplumber / python-docx  →  Text extraction
+        ├── Cosine Similarity          →  Plagiarism detection
+        ├── Groq API (LLaMA 3.3 70B)  →  AI evaluation
+        └── ReportLab                  →  PDF report generation
+```
 
 ---
 
-## 2. Backend Setup
+## 📂 Project Structure
+
+```
+EduGrade-AI/
+├── backend/
+│   ├── main.py           # FastAPI routes, AI integration, PDF generation
+│   ├── requirements.txt  # Python dependencies
+│   └── .env              # Secrets (excluded from Git)
+│
+├── frontend/
+│   ├── index.html        # Main UI
+│   ├── app.js            # API calls, state management
+│   └── style.css         # Styling
+│
+├── .gitignore
+└── README.md
+```
+
+---
+
+## 🚀 Local Setup
+
+### Prerequisites
+- Python 3.10+
+- A [Groq API Key](https://console.groq.com) (free)
+
+### 1. Clone & Install
 
 ```bash
-# Clone your repository
-git clone https://github.com/YOUR_USERNAME/EduGrade-AI.git
-
-# Navigate to backend
+git clone https://github.com/NishanthNag22/EduGrade-AI.git
 cd EduGrade-AI/backend
-
-# Install dependencies
 pip install -r requirements.txt
 ```
 
----
+### 2. Environment Variables
 
-## 3. Environment Configuration
-
-Create a `.env` file inside the `backend/` folder:
+Create a `.env` file inside `backend/`:
 
 ```env
-GROQ_API_KEY=your_actual_groq_key_here
+GROQ_API_KEY=your_groq_api_key_here
 ```
 
----
-
-## 4. Running the Server
+### 3. Run Backend
 
 ```bash
-# Start the FastAPI server
-python -m uvicorn main:app --reload --port 8000
+uvicorn main:app --reload --port 8000
 ```
 
----
+### 4. Open Frontend
 
-## 5. Accessing the UI
-
-Open `frontend/index.html` directly in your browser.
-
-The frontend is pre-linked to communicate with the local FastAPI server at:
-
-```text
-http://localhost:8000
-```
+Open `frontend/index.html` in your browser.
 
 ---
 
-# 📂 Project Structure
+## 🔒 Security
 
-```text
-EduGrade-AI/
-├── backend/
-│   ├── main.py           # API logic, AI integration & report generation
-│   ├── requirements.txt  # Python dependencies
-│   └── .env              # Secrets (Hidden from Git)
-│
-├── frontend/
-│   ├── index.html        # Dashboard UI
-│   ├── app.js            # API orchestration
-│   └── style.css         # Modern UI styling
-│
-├── .gitignore            # Git exclusion rules
-└── README.md             # Professional documentation
-```
+- API keys stored in `.env` — never committed to Git
+- Student submissions processed in temporary directories — not stored permanently
+- `.gitignore` excludes all secrets and upload folders
 
 ---
 
-# 🛡️ Security & Privacy
+## 📄 License
 
-## 🔐 API Protection
-The `.gitignore` file ensures your API keys are never pushed to a public repository.
-
-## 🧾 Secure Handling
-Student submissions are processed in temporary directories and are not stored permanently on the server.
-
----
-
-# 📄 License
-
-This project is licensed under the MIT License.  
-See the `LICENSE` file for details.
+MIT License — see `LICENSE` for details.

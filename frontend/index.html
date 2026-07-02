@@ -12,7 +12,10 @@
 
   <nav>
     <div class="nav-brand">EduGrade <span>AI</span></div>
-    <div id="apiStatus" class="status-dot"></div>
+    <div class="nav-right">
+      <span id="apiStatusLabel" class="status-label">Connecting…</span>
+      <div id="apiStatus" class="status-dot"></div>
+    </div>
   </nav>
 
   <main>
@@ -20,8 +23,7 @@
     <div id="setupPage">
       <div class="hero">
         <h1>Batch Assignment Evaluator</h1>
-        <p>Upload 100+ student submissions. AI evaluates each, detects plagiarism, generates PDF reports and viva
-          questions.</p>
+        <p>Upload 100+ student submissions. AI evaluates each, detects plagiarism, generates PDF reports and viva questions.</p>
       </div>
 
       <!-- Rubric Section -->
@@ -43,9 +45,12 @@
 
       <!-- Upload Section -->
       <div class="card">
-        <div class="section-label">Student Submissions</div>
+        <div class="card-header">
+          <span class="section-label">Student Submissions</span>
+          <span id="fileCountBadge" class="file-count-badge" style="display:none"></span>
+        </div>
         <div class="drop-zone" id="dropZone">
-          <div class="drop-icon">📂</div>
+          <div class="drop-icon">📁</div>
           <div class="drop-title">Drop files here or <span class="link">click to browse</span></div>
           <div class="drop-sub">PDF, DOCX, TXT, Python, JS, Java, C/C++ — supports 100+ files</div>
           <input type="file" id="fileInput" multiple accept=".pdf,.docx,.txt,.py,.js,.ts,.java,.c,.cpp,.cs" hidden>
@@ -53,7 +58,7 @@
         <div id="fileList" class="file-list"></div>
       </div>
 
-      <button class="btn-primary" id="evalBtn" onclick="startEval()">
+      <button class="btn-primary" id="evalBtn" onclick="startEval()" disabled>
         Evaluate submissions
       </button>
     </div>
@@ -65,7 +70,7 @@
           <h2>Evaluation Results</h2>
           <p id="resultsSubtitle" class="subtitle"></p>
         </div>
-        <button class="btn-outline" onclick="reset()">← New evaluation</button>
+        <button class="btn-outline" onclick="reset()">↩ New evaluation</button>
       </div>
 
       <div class="stats-grid" id="statsGrid"></div>
