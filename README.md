@@ -57,19 +57,25 @@ FastAPI Backend (Render)
 
 ```
 EduGrade-AI/
+├── .env                  # Secrets (excluded from Git) — GROQ_API_KEY lives here
 ├── backend/
-│   ├── main.py           # FastAPI routes, AI integration, PDF generation
-│   ├── requirements.txt  # Python dependencies
-│   └── .env              # Secrets (excluded from Git)
+│   ├── main.py            # FastAPI routes, AI integration, PDF generation
+│   └── requirements.txt   # Python dependencies
 │
 ├── frontend/
-│   ├── index.html        # Main UI
-│   ├── app.js            # API calls, state management
-│   └── style.css         # Styling
+│   ├── index.html         # Main UI
+│   ├── app.js              # API calls, state management
+│   └── style.css           # Styling
 │
 ├── .gitignore
 └── README.md
 ```
+
+> **Note:** `.env` lives in the **project root**, one level above `backend/` — not inside `backend/` itself. `main.py` loads it explicitly from there:
+> ```python
+> load_dotenv(dotenv_path=Path(__file__).resolve().parent.parent / ".env")
+> ```
+> This keeps the key discoverable regardless of the working directory the server is launched from (important for Docker/Render deployments).
 
 ---
 
@@ -79,39 +85,50 @@ EduGrade-AI/
 - Python 3.10+
 - A [Groq API Key](https://console.groq.com) (free)
 
-### 1. Clone & Install
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/NishanthNag22/EduGrade-AI.git
-cd EduGrade-AI/backend
-pip install -r requirements.txt
+cd EduGrade-AI
 ```
 
 ### 2. Environment Variables
 
-Create a `.env` file inside `backend/`:
+Create a `.env` file **here, in the project root** (`EduGrade-AI/.env`):
 
 ```env
 GROQ_API_KEY=your_groq_api_key_here
 ```
 
-### 3. Run Backend
+### 3. Install Backend Dependencies
+
+```bash
+cd backend
+pip install -r requirements.txt
+```
+
+### 4. Run Backend
 
 ```bash
 uvicorn main:app --reload --port 8000
 ```
 
-### 4. Open Frontend
+The backend will read `.env` from the project root automatically.
 
-Open `frontend/index.html` in your browser.
+### 5. Open Frontend
+
+Open `frontend/index.html` in your browser, or serve it locally with any static server. The frontend auto-detects whether it's running on `localhost` and points to the local backend (`http://localhost:8000`) accordingly — no manual config needed for local dev.
 
 ---
 
 ## 🔒 Security
 
-- API keys stored in `.env` — never committed to Git
+- API keys stored in `.env` at the project root — never committed to Git
 - Student submissions processed in temporary directories — not stored permanently
 - `.gitignore` excludes all secrets and upload folders
+- CORS restricted to an explicit allow-list (`ALLOWED_ORIGINS` env var) rather than `"*"`
+- Per-IP rate limiting on upload/evaluation endpoints
+- Uploaded filenames sanitized to prevent path traversal
 
 ---
 
